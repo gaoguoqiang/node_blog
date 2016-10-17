@@ -1,0 +1,9 @@
+body, ul, li, input {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none;
+    width: 300px;
+    margin: 20px auto;
+}

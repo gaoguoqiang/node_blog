@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <script src="/public/js/jquery.js"></script>
+    <script src="/public/js/index.js"></script>
+</head>
+<body>
+    {% if userInfo.id %}
+    <ul id="userInfo">
+        <li><h3>个人中心</h3></li>
+        <li><p class="name">{{userInfo.username}}</p></li>
+        <li><p class="info">您好，欢迎光临我的博客</p></li>
+        <li><a href="javascript:;">退出</a></li>
+    </ul>
+    
+    {% else %}
+    <ul id="reg">
+        <li>用户名：<input type="text" name="username"></li>
+        <li>密　码：<input type="password" name="password"></li>
+        <li>重复密码：<input type="password" name="repassword"></li>
+        <li><input type="button" name="submit" value="注册"></li>
+        <li><a href="javascript:;">马上登录</a></li>
+        <li><p class="info"></p></li>
+    </ul>
+    <ul id="login" style="display: none;">
+        <li>用户名：<input type="text" name="username"></li>
+        <li>密　码：<input type="password" name="password"></li>
+        <li><input type="button" name="submit" value="登录"></li>
+        <li><a href="javascript:;">马上注册</a></li>
+        <li><p class="info"></p></li>
+    </ul>
+    {% endif %}
+</body>
+</html>
