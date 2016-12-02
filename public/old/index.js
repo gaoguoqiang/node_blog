@@ -71,7 +71,7 @@ window.onload = function () {
             }
         }
     });
-
+    //分类信息
     var category = new Vue({
         el: '#category',
         data:{
@@ -90,13 +90,26 @@ window.onload = function () {
             },
             show: function (index) {
                 if(index >= 0){
-                    var id = this.name[index]._id;
+                    var id = {
+                        id: this.name[index]._id
+                    }
                 }else{
-                    var id = null
+                    var id = {
+                        id: null
+                    }
                 }
-
+                //出发change事件，用来刷新content中的数据
                 Bus.$emit('change', id);
             }
+        },
+        //生命周期钩子
+        //由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+        //当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。
+        updated: function () {
+            $('#category li').click(function () {
+                $('#category li').removeClass('active')
+                $(this).addClass('active');
+            })
         }
     });
 
@@ -107,21 +120,29 @@ window.onload = function () {
             page: 0,
             pages: 0,
             limit: 0,
-            count: 0
+            count: 0,
+            categoryId: null
         },
         methods: {
             getData: function (json) {
                 var _this = this;
                 var url = '';
                 if(json){
+                    //在首页中点击翻页按钮
                     if(json.page && !json.id){
                         url = '/api/main/contents?page='+json.page;
                     }
+                    //切换分类
                     if(!json.page && json.id){
                         url = '/api/main/contents?id='+json.id;
                     }
+                    //分类内点击翻页按钮
                     if(json.page && json.id){
                         url = '/api/main/contents?page='+json.page+'&id='+json.id;
+                    }
+                    //点击首页按钮
+                    if(!json.page && !json.id){
+                        url = '/api/main/contents';
                     }
                 }else{
                     url = '/api/main/contents';
@@ -154,14 +175,8 @@ window.onload = function () {
         created: function () {
             var _this = this;
             Bus.$on('change', function (value) {
-                if(value !== null){
-                    _this.getData({
-                        id:value
-                    })
-                }else{
-                    _this.getData()
-                }
-
+                _this.categoryId = value.id;
+                _this.getData(value)
             })
         }
     });

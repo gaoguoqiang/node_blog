@@ -220,8 +220,8 @@ router.post('/main/contents', function (req, res) {
     var categoryId = {};
     if(req.query.id){
         categoryId.category = req.query.id;
-        console.log(req.query.id)
-        console.log(categoryId)
+        // console.log(req.query.id)
+        // console.log(categoryId)
     }
     var limit = 2;
     var pages = 0;

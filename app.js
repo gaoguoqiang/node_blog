@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 //加载cookies模块
 var Cookies = require('cookies');
-
+//加载用户表
 var User = require('./models/User');
 //创建app应用 ==> NodeJS  Http.createServer();
 var app = express();

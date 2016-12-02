@@ -35,8 +35,8 @@
                 <nav>
                     <ul class="pager">
                         <li><p v-text="'一共有 ' + count + ' 条数据  /  每页显示 ' + limit + ' 条  /  一共有 ' + pages + ' 页  /  当前是第 ' + page + ' 页'"></p></li>
-                        <li class="previous"><a @click="getData({page:page-1})" herf="javascript:;">上一页</a></li>
-                        <li class="next"><a @click="getData({page:page+1})" herf="javascript:;">下一页</a></li>
+                        <li class="previous"><a @click="getData({page:page-1,id:categoryId})" herf="javascript:;">上一页</a></li>
+                        <li class="next"><a @click="getData({page:page+1,id:categoryId})" herf="javascript:;">下一页</a></li>
                     </ul>
                 </nav>
             </div>
