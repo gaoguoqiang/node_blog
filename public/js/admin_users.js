@@ -1,0 +1,1 @@
+window.onload=function(){var s=new Vue({el:"#users",data:{users:null,page:0,pages:0,limit:0,count:0},methods:{getData:function(s){var e=this,a=s?"/api/user/usersList?page="+s.page:"/api/user/usersList";$.ajax({type:"post",url:a,success:function(s){e.users=s.users,e.page=s.page,e.pages=s.pages,e.limit=s.limit,e.count=s.count}})}}});s.getData()};

@@ -2,36 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>blog</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <script src="/public/js/vue.js"></script>
     <script src="/public/js/jquery.js"></script>
-    <script src="/public/js/index.js"></script>
+    <script src="/public/old/index.js"></script>
 </head>
 <body>
-    {% if userInfo.id %}
-    <ul id="userInfo">
-        <li><h3>个人中心</h3></li>
-        <li><p class="name">{{userInfo.username}}</p></li>
-        <li><p class="info">您好，欢迎光临我的博客</p></li>
-        <li><a href="javascript:;">退出</a></li>
-    </ul>
-    
-    {% else %}
-    <ul id="reg">
-        <li>用户名：<input type="text" name="username"></li>
-        <li>密　码：<input type="password" name="password"></li>
-        <li>重复密码：<input type="password" name="repassword"></li>
-        <li><input type="button" name="submit" value="注册"></li>
-        <li><a href="javascript:;">马上登录</a></li>
-        <li><p class="info"></p></li>
-    </ul>
-    <ul id="login" style="display: none;">
-        <li>用户名：<input type="text" name="username"></li>
-        <li>密　码：<input type="password" name="password"></li>
-        <li><input type="button" name="submit" value="登录"></li>
-        <li><a href="javascript:;">马上注册</a></li>
-        <li><p class="info"></p></li>
-    </ul>
-    {% endif %}
+    <div class="container">
+        <div class="jumbotron">
+            <h3>个人博客</h3>
+            <p>一个热爱编程的前端小伙！！！</p>
+        </div>
+    </div>
+    <div class="container">
+        <ul id="category" class="nav nav-tabs nav-justified">
+            <li class="active"><a @click="show()" href="#">首页</a></li>
+            <li v-for="(names, index) in name"><a @click="show(index)" href="#" v-text="names.name"></a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-lg-9">
+                <div v-for="data in content" class="info-content">
+                    <p class="time">作者<span v-text="data.user.username"></span>发布时间<span v-text="newTime(data.addTime)"></span></p>
+                    <h3 class="title" v-text="data.title"></h3>
+                    <p class="jj" v-text="data.description"></p>
+                    <button class="btn">阅读全文</button>
+                </div>
+                <nav>
+                    <ul class="pager">
+                        <li><p v-text="'一共有 ' + count + ' 条数据  /  每页显示 ' + limit + ' 条  /  一共有 ' + pages + ' 页  /  当前是第 ' + page + ' 页'"></p></li>
+                        <li class="previous"><a @click="getData({page:page-1})" herf="javascript:;">上一页</a></li>
+                        <li class="next"><a @click="getData({page:page+1})" herf="javascript:;">下一页</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="conter" class="col-lg-3 form">
+                {% if userInfo.id %}
+                <ul id="userInfo" class="list-unstyled">
+                    <p class="bg-info form-title">个人中心</p>
+                    <li><p class="name">{{userInfo.username}}</p></li>
+                    {% if userInfo.isAdmin %}
+                    <li><p class="info">您好，管理员</p><a href="/admin/">进入管理员页面</a></li>
+                    {% else %}
+                    <li><p class="info">您好，欢迎光临我的博客</p></li>
+                    {% endif %}
+                    <li><a @click="logout()" id="logout" href="javascript:;">退出</a></li>
+                </ul>
+                {% else %}
+                <p class="bg-info form-title" v-if="onOff">登录</p>
+                <p class="bg-info form-title" v-else>注册</p>
+                <ul v-if="onOff" id="login" class="list-unstyled">
+                    <li>用户名：<input class="form-control" type="text" name="username" v-model="loginInfo.username"></li>
+                    <li>密　码：<input class="form-control" type="password" name="password" v-model="loginInfo.password"></li>
+                    <li><input @click="login()" class="btn btn-info reg-btn" type="button" name="submit" value="登录"></li>
+                    <li><a @click="onoff()" class="pull-right" href="javascript:;">马上注册</a></li>
+                    <li><p class="text-danger info" v-text="message"></p></li>
+                </ul>
+                <form v-else >
+                    <ul id="reg" class="list-unstyled">
+                        <li>用户名：<input class="form-control" type="text" name="username" v-model="regInfo.username"></li>
+                        <li>密　码：<input class="form-control" type="password" name="password" v-model="regInfo.password"></li>
+                        <li>重复密码：<input class="form-control" type="password" name="repassword" v-model="regInfo.repassword"></li>
+                        <li><input @click="reg()" class="btn btn-info reg-btn" type="button" name="submit" value="注册"></li>
+                        <li><a @click="onoff()" class="pull-right" href="javascript:;">马上登录</a></li>
+                        <li><p class="text-danger info" v-text="message"></p></li>
+                    </ul>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

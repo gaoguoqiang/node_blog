@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block main %}
+<script type="text/javascript" src="/public/js/vue.js"></script>
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/admin_users.js"></script>
+<ol class="breadcrumb">
+    <li><a href="/">后台管理</a></li>
+    <li><span>用户管理</span></li>
+</ol>
+<h3>用户列表</h3>
+<div id="users">
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>密码</th>
+            <th>管理员</th>
+        </tr>
+        <tr v-for="user in users">
+            <td v-text="user._id"></td>
+            <td v-text="user.username"></td>
+            <td v-text="user.password"></td>
+            <td v-text="user.isAdmin?'是':'否'"></td>
+        </tr>
+    </table>
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a @click="getData({page:page-1})" herf="javascript:;">上一页</a></li>
+            <li>
+                <p v-text="'一共有 ' + count + ' 条数据  /  每页显示 ' + limit + ' 条  /  一共有 ' + pages + ' 页  /  当前是第 ' + page + ' 页'"></p>
+            </li>
+            <li class="next"><a @click="getData({page:page+1})" herf="javascript:;">下一页</a></li>
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

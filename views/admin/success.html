@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block main %}
+<!--<script type="text/javascript" src="/public/js/vue.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/jquery.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/admin_users.js"></script>-->
+<ol class="breadcrumb">
+    <li><a href="/">后台管理</a></li>
+    <li><span>成功提示</span></li>
+</ol>
+<div class="panel panel-default">
+    <div class="panel-heading">成功提示</div>
+    <div class="panel-body">{{message}}</div>
+    <div class="panel-footer">
+        <a href="{{url}}">点击这里返回首页</a>
+    </div>
+</div>
+
+{% endblock %}

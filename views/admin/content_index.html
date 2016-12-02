@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block main %}
+<script type="text/javascript" src="/public/js/vue.js"></script>
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/admin_content.js"></script>
+<ol class="breadcrumb">
+    <li><a href="/">后台管理</a></li>
+    <li><span>内容首页</span></li>
+</ol>
+<h3>内容列表</h3>
+<div id="app">
+    <table class="table table-hover table-striped">
+        <tr>
+            <th>ID</th>
+            <th>分类名称</th>
+            <th>内容标题</th>
+            <th>作者</th>
+            <th>添加时间</th>
+            <th>阅读量</th>
+            <th>操作</th>
+        </tr>
+        <tr is="my-component" v-on:getData="getData" v-for="content in contents" :content="content"></tr>
+    </table>
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a @click="getData({page:page-1})" herf="javascript:;">上一页</a></li>
+            <li>
+                <p v-text="'一共有 ' + count + ' 条数据  /  每页显示 ' + limit + ' 条  /  一共有 ' + pages + ' 页  /  当前是第 ' + page + ' 页'"></p>
+            </li>
+            <li class="next"><a @click="getData({page:page+1})" herf="javascript:;">下一页</a></li>
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block main %}
+<!--<script type="text/javascript" src="/public/js/vue.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/jquery.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/admin_users.js"></script>-->
+<ol class="breadcrumb">
+    <li><a href="/">后台管理</a></li>
+    <li><span>错误提示</span></li>
+</ol>
+<div class="panel panel-default">
+    <div class="panel-heading">错误提示</div>
+    <div class="panel-body">{{message}}</div>
+    <div class="panel-footer">
+        <a href="javascript:window.history.back();">返回上一步</a>
+    </div>
+</div>
+
+{% endblock %}

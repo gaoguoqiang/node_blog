@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 //加载cookies模块
 var Cookies = require('cookies');
+
+var User = require('./models/User');
 //创建app应用 ==> NodeJS  Http.createServer();
 var app = express();
 
@@ -38,9 +40,19 @@ app.use(function (req, res, next) {
     if(req.cookies.get('userInfo')){
         try{
             req.userInfo = JSON.parse(req.cookies.get('userInfo'));
-        }catch(e){}
+
+            User.findById(req.userInfo.id).then(function (userInfo) {
+                req.userInfo.isAdmin = Boolean(userInfo.isAdmin);
+                next();
+            })
+
+        }catch(e){
+            next();
+        }
+    }else{
+        next();
     }
-    next();
+
 });
 /*
 * 根据不同的功能划分模块

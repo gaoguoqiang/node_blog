@@ -5,6 +5,8 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var Category = require('../models/Category');
+var Content = require('../models/Content');
 
 //统一返回数据的格式
 var responseData;
@@ -63,7 +65,7 @@ router.post('/user/register', function (req, res, next) {
        });
        return user.save();
     }).then(function (newUserInfo) {
-        console.log(newUserInfo);
+        //console.log(newUserInfo);
         responseData.message = '注册成功';
         res.json(responseData);
     });
@@ -103,5 +105,144 @@ router.post('/user/login', function (req, res, next) {
         return;
     })
 });
+//退出
+router.get('/user/logout', function (req, res) {
+    req.cookies.set('userInfo', null);
+    res.json(responseData);
+});
+//用户列表
+router.post('/user/usersList', function (req, res) {
+    /*
+    * 从数据库中读取所有数据
+    *
+    * limit(Number): 限制获取的数据条数
+    *
+    * skip(): 忽略数据的条数
+    * */
+    var page = Number(req.query.page || 1);
+    var limit = 2;
+    var pages = 0;
+    User.count().then(function (count) {
+        pages = Math.ceil(count/limit);
+        page = Math.min(page, pages);
+        page = Math.max(page, 1);
+        var skip = (page-1) * limit;
 
+        User.find().limit(limit).skip(skip).then(function (users) {
+            responseData.users = users;
+            res.json({
+                users: users,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit
+            });
+            return;
+        })
+    });
+});
+/*
+* 分类列表
+* */
+router.post('/category/categoryList', function (req, res) {
+    /*
+     * 从数据库中读取所有数据
+     *
+     * limit(Number): 限制获取的数据条数
+     *
+     * skip(): 忽略数据的条数
+     * */
+    var page = Number(req.query.page || 1);
+    var limit = 3;
+    var pages = 0;
+    Category.count().then(function (count) {
+        pages = Math.ceil(count/limit);
+        page = Math.min(page, pages);
+        page = Math.max(page, 1);
+        var skip = (page-1) * limit;
+
+        Category.find().sort({_id:-1}).limit(limit).skip(skip).then(function (categories) {
+            res.json({
+                categories: categories,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit
+            });
+            return;
+        })
+    });
+});
+router.post('/category/categories', function (req, res) {
+    Category.find().sort({_id:-1}).then(function (categories) {
+        res.json({
+            categoryName: categories
+        })
+    })
+});
+/*
+ * 内容列表
+ * */
+router.post('/content/contentList', function (req, res) {
+    /*
+     * 从数据库中读取所有数据
+     *
+     * limit(Number): 限制获取的数据条数
+     *
+     * skip(): 忽略数据的条数
+     * */
+    var page = Number(req.query.page || 1);
+    var limit = 3;
+    var pages = 0;
+    Content.count().then(function (count) {
+        pages = Math.ceil(count/limit);
+        page = Math.min(page, pages);
+        page = Math.max(page, 1);
+        var skip = (page-1) * limit;
+
+        Content.find().sort({_id:-1}).limit(limit).skip(skip).populate(['category', 'user']).then(function (contents) {
+            res.json({
+                contents: contents,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit
+            });
+            return;
+        })
+    });
+});
+/*
+* 首页内容列表
+* */
+router.post('/main/contents', function (req, res) {
+    var page = Number(req.query.page || 1);
+    var categoryId = {};
+    if(req.query.id){
+        categoryId.category = req.query.id;
+        console.log(req.query.id)
+        console.log(categoryId)
+    }
+    var limit = 2;
+    var pages = 0;
+
+    Content.count(categoryId).then(function (count) {
+        pages = Math.ceil(count/limit);
+        page = Math.min(page, pages);
+        page = Math.max(page, 1);
+        var skip = (page-1) * limit;
+        Content.find(categoryId).sort({_id: -1}).limit(limit).skip(skip).populate(['category', 'user']).then(function (contents) {
+            res.json({
+                contents: contents,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit
+            })
+        });
+        return;
+    })
+
+
+});
 module.exports = router;

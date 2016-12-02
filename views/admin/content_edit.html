@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block main %}
+<!--<script type="text/javascript" src="/public/js/vue.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/jquery.js"></script>-->
+<!--<script type="text/javascript" src="/public/js/admin_users.js"></script>-->
+<ol class="breadcrumb">
+    <li><a href="/">后台管理</a></li>
+    <li><span>内容修改</span></li>
+</ol>
+<h3>内容修改</h3>
+<form role="form" method="post">
+    <div class="form-group">
+        <label for="category">分类</label>
+        <select class="form-control" id="category" name="category">
+        {% for category in categories %}
+            {% if category.id==content.category.id %}
+            <option value="{{category.id}}" selected>{{category.name}}</option>
+            {% else %}
+            <option value="{{category.id}}">{{category.name}}</option>
+            {% endif %}
+        {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="title">标题</label>
+        <input type="text" class="form-control" id="title" placeholder="请输入您要添加的标题" name="title" value="{{content.title}}">
+    </div>
+    <div class="form-group">
+        <label for="description">简介</label>
+        <textarea name="description" id="description" class="form-control" placeholder="请输入您要添加的简介" rows="5">{{content.description}}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="content">简介</label>
+        <textarea name="content" id="content" class="form-control" placeholder="请输入您要添加的内容" rows="10">{{content.content}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-default">提交</button>
+</form>
+
+{% endblock %}

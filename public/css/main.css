@@ -1,9 +1,32 @@
-body, ul, li, input {
-    margin: 0;
-    padding: 0;
+@charset "UTF-8";
+#conter {
+  margin-top: 5px;
 }
-ul {
-    list-style: none;
-    width: 300px;
-    margin: 20px auto;
+#conter .form-title {
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+#conter .reg-btn {
+  display: block;
+  margin: 10px auto;
+}
+.info-content {
+  margin: 10px;
+  background: #fff;
+  padding: 5px;
+  box-shadow: 2px 2px 3px #ccc;
+}
+.info-content .time {
+  text-align: center;
+}
+.info-content .time span {
+  color: red;
+  margin: 0 5px;
+}
+.info-content .title {
+  text-align: center;
 }
