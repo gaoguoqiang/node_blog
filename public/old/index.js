@@ -112,7 +112,7 @@ window.onload = function () {
             })
         }
     });
-
+    //内容列表
     var content = new Vue({
         el: '#content',
         data: {
@@ -121,7 +121,8 @@ window.onload = function () {
             pages: 0,
             limit: 0,
             count: 0,
-            categoryId: null
+            categoryId: null,
+            onOff: true
         },
         methods: {
             getData: function (json) {
@@ -170,6 +171,11 @@ window.onload = function () {
                     seconds = time.getSeconds();
                 var str = year + '年' + month + '月' + date + '日 ' + hours + ':' + min + ':' + seconds;
                 return str;
+            },
+            jump: function (value) {
+                console.log(value);
+                this.onOff = false;
+                Bus.$emit('aaa', value);
             }
         },
         created: function () {
@@ -180,80 +186,56 @@ window.onload = function () {
             })
         }
     });
+    //内容详情
+    var particular = new Vue({
+        el: "#particular",
+        data: {
+            onOff: false,
+            content: null,
+        },
+        methods: {
+            getData: function (value) {
+                console.log("ok");
+                var _this = this;
+                $.ajax({
+                    type: 'post',
+                    url: '/api/main/particular',
+                    data: {
+                        id: value
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        _this.content = data.content;
+                        console.log(_this.content)
+                    }
+                })
+            },
+            newTime: function (value) {
+                var time = new Date(value),
+                    year = time.getFullYear(),
+                    month = time.getMonth()+1,
+                    date = time.getDate(),
+                    hours = time.getHours(),
+                    min = time.getMinutes(),
+                    seconds = time.getSeconds();
+                var str = year + '年' + month + '月' + date + '日 ' + hours + ':' + min + ':' + seconds;
+                return str;
+            }
+        },
+        beforeCreate: function () {
+            var _this = this;
+            Bus.$on('aaa', function (value) {
+                _this.onOff = true;
+                _this.getData(value);
+            })
+        }
+    })
     content.getData();
     category.getData();
 };
 
 
 
-// $(function () {
-//    var $reg = $('#reg');
-//    var $login = $('#login');
-//    var $userInfo = $('#userInfo');
-//     $reg.find('a').on('click', function () {
-//         $reg.hide();
-//         $login.show();
-//     });
-//     $login.find('a').on('click', function () {
-//         $reg.show();
-//         $login.hide();
-//     });
-//     $reg.find('[name="submit"]').on('click',function () {
-//         $.ajax({
-//             type: 'post',
-//             url: '/api/user/register',
-//             data: {
-//                 username: $reg.find('[name="username"]').val(),
-//                 password: $reg.find('[name="password"]').val(),
-//                 repassword: $reg.find('[name="repassword"]').val()
-//             },
-//             dataType: 'json',
-//             success: function (data) {
-//                 $reg.find('.info').html(data.message);
-//                 if(!data.code){
-//                     setTimeout(function () {
-//                         $reg.hide();
-//                         $login.show();
-//                     },1000);
-//                 }
-//             }
-//         });
-//     });
-//     $login.find('[name="submit"]').on('click',function () {
-//         $.ajax({
-//             type: 'post',
-//             url: '/api/user/login',
-//             data:{
-//                 username: $login.find('[name="username"]').val(),
-//                 password: $login.find('[name="password"]').val(),
-//             },
-//             dataType: 'json',
-//             success: function (data) {
-//                 $login.find('.info').html(data.message);
-//
-//                 if(!data.code) {
-//                     setTimeout(function () {
-//                         window.location.reload();
-//                         /*$login.hide();
-//                         $userInfo.show().find('.name').html(data.userInfo.username);
-//                         $userInfo.find('.info').html('您好，欢迎光临我的个人博客');*/
-//                     },1000);
-//                 }
-//
-//             }
-//         });
-//     });
-//     $userInfo.find('#logout').on('click', function () {
-//         $.ajax({
-//             type: 'get',
-//             url: '/api/user/logout',
-//             success: function (data) {
-//                 if(!data.code){
-//                     window.location.reload();
-//                 }
-//             }
-//         })
-//     })
-// });
+
 
 

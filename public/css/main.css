@@ -33,3 +33,16 @@ a:focus {
 .info-content .title {
   text-align: center;
 }
+#a2 {
+  margin-top: 70px;
+}
+#particular h2 {
+  text-align: center;
+}
+#particular p {
+  text-align: center;
+}
+#particular span {
+  color: darkred;
+  margin: 0 6px;
+}

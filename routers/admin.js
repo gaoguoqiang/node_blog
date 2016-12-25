@@ -80,7 +80,7 @@ router.post('/category/add', function (req, res) {
             message: '分类添加成功',
             url: '/admin/category'
         })
-    })
+    });
 });
 /*
  * 分类修改

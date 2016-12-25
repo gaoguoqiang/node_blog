@@ -26,12 +26,12 @@
     </div>
     <div class="container">
         <div class="row">
-            <div id="content" v-show="onOff" class="col-lg-9 col-md-9 col-sm-9">
+            <div id="content" class="col-lg-9 col-md-9 col-sm-9">
                 <div v-for="data in content" class="info-content">
                     <p class="time">作者<span v-text="data.user.username"></span>发布时间<span v-text="newTime(data.addTime)"></span></p>
                     <h3 class="title" v-text="data.title"></h3>
                     <p class="jj" v-text="data.description"></p>
-                    <button @click="jump(data._id)" class="btn">阅读全文</button>
+                    <button class="btn">阅读全文</button>
                 </div>
                 <nav>
                     <ul class="pager">
@@ -40,16 +40,6 @@
                         <li class="next"><a @click="getData({page:page+1,id:categoryId})" herf="javascript:;">下一页</a></li>
                     </ul>
                 </nav>
-            </div>
-            <div id="particular" v-if="onOff" class="col-lg-9 col-md-9 col-sm-9">
-                <div>
-                    <h2 v-text="content.title"></h2>
-                    <p class="time">作者:<span v-text="content.user.username"></span>
-                        发布时间:<span v-text="newTime(content.addTime)"></span>
-                        阅读量:<span v-text="content.views"></span>
-                    </p>
-                    <div v-text="content.content"></div>
-                </div>
             </div>
             <div id="conter" class="col-lg-3 col-md-3 col-sm-3 form">
                 {% if userInfo.id %}

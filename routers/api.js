@@ -241,8 +241,17 @@ router.post('/main/contents', function (req, res) {
             })
         });
         return;
-    })
-
-
+    });
 });
+//内容详情
+router.post('/main/particular', function (req, res) {
+    var id = req.body.id;
+    Content.findOne({_id: id}).populate(['user']).then(function (content) {
+        content.views++;
+        content.save();
+        res.json({
+            content: content
+        })
+    });
+})
 module.exports = router;
