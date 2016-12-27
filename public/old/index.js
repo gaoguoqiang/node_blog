@@ -128,6 +128,7 @@ window.onload = function () {
             getData: function (json) {
                 var _this = this;
                 var url = '';
+                //点击不同的按钮，会有不同的json传输过来，所以要分情况对待
                 if(json){
                     //在首页中点击翻页按钮
                     if(json.page && !json.id){
@@ -175,14 +176,15 @@ window.onload = function () {
             jump: function (value) {
                 console.log(value);
                 this.onOff = false;
-                Bus.$emit('aaa', value);
+                Bus.$emit('showParticular', value);
             }
         },
         created: function () {
             var _this = this;
             Bus.$on('change', function (value) {
                 _this.categoryId = value.id;
-                _this.getData(value)
+                _this.getData(value);
+                _this.onOff = true;
             })
         }
     });
@@ -195,7 +197,7 @@ window.onload = function () {
         },
         methods: {
             getData: function (value) {
-                console.log("ok");
+                //console.log("ok");
                 var _this = this;
                 $.ajax({
                     type: 'post',
@@ -206,10 +208,11 @@ window.onload = function () {
                     success: function (data) {
                         //console.log(data);
                         _this.content = data.content;
-                        console.log(_this.content)
+                        //console.log(_this.content)
                     }
                 })
             },
+            //格式化时间
             newTime: function (value) {
                 var time = new Date(value),
                     year = time.getFullYear(),
@@ -222,11 +225,15 @@ window.onload = function () {
                 return str;
             }
         },
+        //生命周期钩子
         beforeCreate: function () {
             var _this = this;
-            Bus.$on('aaa', function (value) {
+            Bus.$on('showParticular', function (value) {
                 _this.onOff = true;
                 _this.getData(value);
+            });
+            Bus.$on('change', function (value) {
+                _this.onOff = false;
             })
         }
     })
