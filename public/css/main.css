@@ -46,3 +46,21 @@ a:focus {
   color: darkred;
   margin: 0 6px;
 }
+#discuss {
+  margin-top: 20px;
+}
+#discuss li {
+  overflow: hidden;
+}
+#discuss span {
+  color: #666;
+  float: left;
+}
+#discuss p {
+  color: #666;
+  float: left;
+}
+#discuss .btn {
+  margin: 10px 0;
+  float: right;
+}

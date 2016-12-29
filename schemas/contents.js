@@ -37,6 +37,11 @@ module.exports = new mongoose.Schema({
     content: {
         type: String,
         default: ''
+    },
+    //评论
+    discuss: {
+        type: Array,
+        default: []
     }
 });
 

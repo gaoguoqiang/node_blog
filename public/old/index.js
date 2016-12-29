@@ -174,7 +174,7 @@ window.onload = function () {
                 return str;
             },
             jump: function (value) {
-                console.log(value);
+                //console.log(value);
                 this.onOff = false;
                 Bus.$emit('showParticular', value);
             }
@@ -193,22 +193,28 @@ window.onload = function () {
         el: "#particular",
         data: {
             onOff: false,
-            content: null,
+            content: {},
+            user: {},
+            id: '',
+            text: ''
         },
         methods: {
-            getData: function (value) {
-                //console.log("ok");
+            /*
+            * 有未知bug，大坑一个
+            * json里嵌套json，会报错
+            * */
+            getData: function () {
                 var _this = this;
                 $.ajax({
                     type: 'post',
                     url: '/api/main/particular',
                     data: {
-                        id: value
+                        id: _this.id
                     },
                     success: function (data) {
-                        //console.log(data);
                         _this.content = data.content;
-                        //console.log(_this.content)
+                        _this.user = data.content.user;
+                       //console.log(_this.content)
                     }
                 })
             },
@@ -223,14 +229,30 @@ window.onload = function () {
                     seconds = time.getSeconds();
                 var str = year + '年' + month + '月' + date + '日 ' + hours + ':' + min + ':' + seconds;
                 return str;
+            },
+            //评论提交
+            save: function () {
+                var _this = this;
+                $.ajax({
+                    type: "post",
+                    url: "/api/main/discussSave",
+                    data: {
+                        value: _this.text
+                    },
+                    success: function (data) {
+                        console.log(data)
+                    }
+                })
             }
         },
         //生命周期钩子
         beforeCreate: function () {
             var _this = this;
+
             Bus.$on('showParticular', function (value) {
                 _this.onOff = true;
-                _this.getData(value);
+                _this.id = value;
+                _this.getData()
             });
             Bus.$on('change', function (value) {
                 _this.onOff = false;

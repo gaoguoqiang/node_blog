@@ -253,5 +253,10 @@ router.post('/main/particular', function (req, res) {
             content: content
         })
     });
+});
+//评论提交
+router.post('/main/discussSave', function (req, res) {
+    var value = req.body.value;
+
 })
 module.exports = router;
