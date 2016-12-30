@@ -54,25 +54,28 @@
                         </div>
                         <div id="discuss">
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item-info">
-                                    <span>123:</span>
-                                    <p>我是一条小评论~~~~~~~~~~~~~~~</p>
-                                </li>
-                                <li class="list-group-item list-group-item-info">
-                                    <span>123:</span>
-                                    <p>我是一条小评论~~~~~~~~~~~~~~~</p>
-                                </li>
-                                <li class="list-group-item list-group-item-info">
-                                    <span>123:</span>
-                                    <p>我是一条小评论~~~~~~~~~~~~~~~</p>
-                                </li>
-                                <li class="list-group-item list-group-item-info">
-                                    <span>123:</span>
-                                    <p>我是一条小评论~~~~~~~~~~~~~~~</p>
+                                <li class="list-group-item list-group-item-info" v-for="data in discussPage">
+                                    <div class="row">
+                                        <div class="col-lg-1" v-text="data.username + '：'"></div>
+                                        <p class="col-lg-11" v-text="data.content"></p>
+                                        <span class="pull-right" v-text="newTime(data.date)"></span>
+                                    </div>
                                 </li>
                             </ul>
+                            <nav>
+                                <ul class="pager row">
+                                    <li class="previous col-lg-2"><a @click="page-1" herf="javascript:;">上一页</a></li>
+                                    <li class="pull-left col-lg-8"><p style="text-align: center;width: 100%;" v-text="Math.ceil(discuss.length/3)+'/'+page"></p></li>
+                                    <li class="next pull-right col-lg-2"><a @click="page+1" herf="javascript:;">下一页</a></li>
+                                </ul>
+                            </nav>
                             <textarea class="form-control" style="resize:none;" rows="3" v-model="text"></textarea>
+                            {% if userInfo.id %}
                             <button class="btn btn-info" @click="save()">提交</button>
+                            {% else %}
+                            <p class="alert alert-danger" style="width: 100%">您还没有登陆，请登陆后评论！！！</p>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>

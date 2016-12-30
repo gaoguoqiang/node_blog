@@ -196,7 +196,14 @@ window.onload = function () {
             content: {},
             user: {},
             id: '',
-            text: ''
+            text: '',
+            discuss: [],
+            page:1
+        },
+        computed: {
+            discussPage: function () {
+                return this.discuss.slice(0,3)
+            }  
         },
         methods: {
             /*
@@ -214,7 +221,8 @@ window.onload = function () {
                     success: function (data) {
                         _this.content = data.content;
                         _this.user = data.content.user;
-                       //console.log(_this.content)
+                        _this.discuss = data.content.discuss;
+                       console.log(_this.discuss)
                     }
                 })
             },
@@ -233,16 +241,22 @@ window.onload = function () {
             //评论提交
             save: function () {
                 var _this = this;
-                $.ajax({
-                    type: "post",
-                    url: "/api/main/discussSave",
-                    data: {
-                        value: _this.text
-                    },
-                    success: function (data) {
-                        console.log(data)
-                    }
-                })
+                if(_this.text == "" || _this.text.match(/^\s+$/)){
+                    alert('评论不能为空！！！');
+                }else{
+                    $.ajax({
+                        type: "post",
+                        url: "/api/main/discussSave",
+                        data: {
+                            value: _this.text,
+                            id: _this.id
+                        },
+                        success: function (data) {
+                            _this.discuss = data;
+                            _this.text = "";
+                        }
+                    })
+                }
             }
         },
         //生命周期钩子
@@ -252,7 +266,7 @@ window.onload = function () {
             Bus.$on('showParticular', function (value) {
                 _this.onOff = true;
                 _this.id = value;
-                _this.getData()
+                _this.getData();
             });
             Bus.$on('change', function (value) {
                 _this.onOff = false;

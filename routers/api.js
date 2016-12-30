@@ -254,9 +254,22 @@ router.post('/main/particular', function (req, res) {
         })
     });
 });
+
 //评论提交
 router.post('/main/discussSave', function (req, res) {
-    var value = req.body.value;
+    //内容id
+    var id = req.body.id;
+    var discuss = {
+        username: req.userInfo.username,
+        date: new Date(),
+        content: req.body.value
+    };
+    Content.findOne({_id:id}).then(function (content) {
+        content.discuss.push(discuss);
+        return content.save();
+    }).then(function (content) {
+        res.json(content.discuss);
+    })
 
 })
 module.exports = router;
