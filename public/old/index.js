@@ -201,8 +201,15 @@ window.onload = function () {
             page:1
         },
         computed: {
+            //评论分页
             discussPage: function () {
-                return this.discuss.slice(0,3)
+                if(this.page <= 1){
+                    this.page = 1;
+                }else if(this.page >= Math.ceil(this.discuss.length/3)){
+                    this.page = Math.ceil(this.discuss.length/3);
+                }
+                console.log(this.page)
+                return this.discuss.slice((this.page-1)*3,3*this.page);
             }  
         },
         methods: {
