@@ -198,7 +198,8 @@ window.onload = function () {
             id: '',
             text: '',
             discuss: [],
-            page:1
+            page:1,
+            markdownContent: ''
         },
         computed: {
             //评论分页
@@ -208,7 +209,7 @@ window.onload = function () {
                 }else if(this.page >= Math.ceil(this.discuss.length/3)){
                     this.page = Math.ceil(this.discuss.length/3);
                 }
-                console.log(this.page)
+                //console.log(this.page)
                 return this.discuss.slice((this.page-1)*3,3*this.page);
             }  
         },
@@ -229,7 +230,8 @@ window.onload = function () {
                         _this.content = data.content;
                         _this.user = data.content.user;
                         _this.discuss = data.content.discuss;
-                       console.log(_this.discuss)
+                        _this.markdownContent = data.markdownContent;
+                       //console.log(_this.discuss)
                     }
                 })
             },

@@ -7,6 +7,7 @@ var router = express.Router();
 var User = require('../models/User');
 var Category = require('../models/Category');
 var Content = require('../models/Content');
+var Markdown = require('markdown').markdown;
 
 //统一返回数据的格式
 var responseData;
@@ -249,8 +250,10 @@ router.post('/main/particular', function (req, res) {
     Content.findOne({_id: id}).populate(['user']).then(function (content) {
         content.views++;
         content.save();
+        var markdownContent = Markdown.toHTML(content.content);
         res.json({
-            content: content
+            content: content,
+            markdownContent: markdownContent
         })
     });
 });

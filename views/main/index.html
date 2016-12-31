@@ -45,12 +45,12 @@
                 <div id="particular">
                     <div v-if="onOff">
                         <div>
-                            <h2 v-text="content.title"></h2>
+                            <h2 class="title" v-text="content.title"></h2>
                             <p class="time">作者:<span v-text="user.username"></span>
                                 发布时间:<span v-text="newTime(content.addTime)"></span>
                                 阅读量:<span v-text="content.views"></span>
                             </p>
-                            <div v-text="content.content"></div>
+                            <div v-html="markdownContent"></div>
                         </div>
                         <div id="discuss">
                             <ul class="list-group">

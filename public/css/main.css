@@ -36,13 +36,13 @@ a:focus {
 #a2 {
   margin-top: 70px;
 }
-#particular h2 {
+#particular .title {
   text-align: center;
 }
-#particular p {
+#particular .time {
   text-align: center;
 }
-#particular span {
+#particular .time span {
   color: darkred;
   margin: 0 6px;
 }

@@ -6,6 +6,8 @@ var express = require('express');
 var router = express.Router();
 var Category = require('../models/category');
 var Content = require('../models/Content');
+var Markdown = require('markdown').markdown;
+var Marked = require('marked');
 /*
 * 验证登录用户身份
 * */
@@ -275,13 +277,14 @@ router.post('/content/edit', function (req, res) {
         })
         return;
     }
+    var content = Markdown.toHTML(req.body.content);
     Content.update({
         _id: id
     },{
         category: req.body.category,
         title: req.body.title,
         description: req.body.description,
-        content: req.body.content
+        content: content
     }).then(function (rs) {
         if(!rs){
             res.render('./admin/error', {
