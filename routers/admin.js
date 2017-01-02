@@ -277,14 +277,13 @@ router.post('/content/edit', function (req, res) {
         })
         return;
     }
-    var content = Markdown.toHTML(req.body.content);
     Content.update({
         _id: id
     },{
         category: req.body.category,
         title: req.body.title,
         description: req.body.description,
-        content: content
+        content: req.body.content
     }).then(function (rs) {
         if(!rs){
             res.render('./admin/error', {
